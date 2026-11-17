@@ -1,0 +1,7 @@
+.cm-s-obsidian .cm-line.cm-active {
+  background-color: color-mix(in oklch, var(--text-normal) 4%, transparent);
+}
+
+.cm-s-obsidian .cm-line.cm-active.HyperMD-codeblock-bg {
+  background-color: color-mix(in srgb, var(--code-normal) 4%, var(--code-background));
+}

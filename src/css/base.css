@@ -1,0 +1,35 @@
+body {
+  --link-unresolved-opacity: 1;
+  --link-unresolved-decoration-style: dashed;
+  --link-unresolved-decoration-color: var(--text-accent);
+  --blockquote-border-thickness: 2px;
+  --embed-border-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
+  --tag-background: color-mix(in oklch, var(--tag-color) 12%, transparent);
+  --tag-background-hover: color-mix(in oklch, var(--tag-color) 20%, transparent);
+}
+
+.theme-dark {
+  --text-selection: color-mix(in oklch, var(--interactive-accent) 30%, transparent);
+}
+
+.theme-light {
+  --text-selection: color-mix(in oklch, var(--interactive-accent) 20%, transparent);
+}
+
+mark {
+  background-color: var(--highlight-background, var(--text-highlight-bg));
+  color: var(--text-normal);
+}
+
+input[type=radio]:checked {
+  background-color: var(--checkbox-color);
+  border-color: var(--checkbox-color);
+}
+
+select:not(.dropdown) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' opacity='0.9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='m7 15 5 5 5-5'/%3E%3Cpath d='m7 9 5-5 5 5'/%3E%3C/svg%3E"), radial-gradient(ellipse, var(--dropdown-icon-background) 48%, transparent 50%);
+}
+
+.theme-dark select:not(.dropdown) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23FFF' opacity='0.6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='m7 15 5 5 5-5'/%3E%3Cpath d='m7 9 5-5 5 5'/%3E%3C/svg%3E"), radial-gradient(ellipse, var(--dropdown-icon-background) 48%, transparent 50%);
+}

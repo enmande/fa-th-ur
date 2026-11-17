@@ -1,0 +1,9 @@
+body {
+  --heading-glow-radius: 0.4em;
+}
+
+.markdown-rendered :is(h1, h2, h3, h4, h5, h6),
+.cm-s-obsidian .HyperMD-header,
+.inline-title {
+  text-shadow: 0 0 var(--heading-glow-radius) var(--heading-glow);
+}

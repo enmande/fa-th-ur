@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"welcome","type":"file","file":"Welcome.md","x":-420,"y":-240,"width":400,"height":300},
+		{"id":"c0","type":"text","text":"# Default card\nLorem ipsum dolor sit amet.","x":40,"y":-240,"width":260,"height":120},
+		{"id":"c1","type":"text","text":"**Red** card","color":"1","x":40,"y":-100,"width":260,"height":60},
+		{"id":"c2","type":"text","text":"**Orange** card","color":"2","x":40,"y":-20,"width":260,"height":60},
+		{"id":"c3","type":"text","text":"**Yellow** card","color":"3","x":40,"y":60,"width":260,"height":60},
+		{"id":"c4","type":"text","text":"**Green** card","color":"4","x":340,"y":-100,"width":260,"height":60},
+		{"id":"c5","type":"text","text":"**Cyan** card","color":"5","x":340,"y":-20,"width":260,"height":60},
+		{"id":"c6","type":"text","text":"**Purple** card","color":"6","x":340,"y":60,"width":260,"height":60},
+		{"id":"group","type":"group","label":"Lorem group","x":20,"y":-260,"width":600,"height":400}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"welcome","fromSide":"right","toNode":"c0","toSide":"left"},
+		{"id":"e2","fromNode":"c0","fromSide":"bottom","toNode":"c1","toSide":"top","color":"2","label":"lorem"}
+	]
+}

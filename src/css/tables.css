@@ -1,0 +1,20 @@
+body {
+  --table-header-border-width: 2px;
+  --table-column-first-border-width: 2px;
+  --table-column-last-border-width: 2px;
+  --table-row-last-border-width: 2px;
+}
+
+.cm-table-widget thead tr {
+  background-color: var(--table-header-background);
+}
+
+.cm-table-widget th {
+  color: var(--table-header-color);
+}
+
+.markdown-rendered thead :is(a, .internal-link, .external-link, .tag),
+.cm-table-widget thead :is(a, .internal-link, .external-link, .tag) {
+  color: var(--table-header-color);
+  background-color: transparent;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>fa-th-ur design brief</title>
+  <link rel="stylesheet" href="../dist/obsidian/fa-th-ur/theme.css">
+  <link rel="stylesheet" href="brief.css">
+  <script src="build/data.js"></script>
+</head>
+<body class="theme-dark">
+  <header>
+    <h1>fa-th-ur</h1>
+    <p class="lede">A warm, minimal, accessible theme framework. Soft blacks, dim ambers, aged paper, and a green phosphor screen for code.</p>
+    <form id="controls">
+      <label>Brief theme
+        <select name="theme"><option value="dark">Dark</option><option value="light">Light</option></select>
+      </label>
+    </form>
+  </header>
+
+  <section>
+    <h2>Mood</h2>
+    <ul class="mood">
+      <li>Soft</li><li>Warm</li><li>Easy to read</li><li>Vintage</li><li>Analog</li>
+    </ul>
+    <p>Palette notes: Dim amber, gold, soft black. Code blocks sit on a dark "screen" in both modes. Inline code in light mode is umber ink on paper.</p>
+  </section>
+
+  <section>
+    <h2>Typography</h2>
+    <div class="type-specimen">
+      <p class="specimen-body">The quick brown fox jumps over the lazy dog. <strong>Bold text</strong>, <em>italic text</em>, and <strong><em>both</em></strong>. 0123456789</p>
+      <p class="specimen-credit" id="credit-body"></p>
+      <pre class="specimen-mono"><code>const ok = a !== b &amp;&amp; c >= d; // => -> &lt;= === != ::
+box: ┌──┐ │░▒▓│ └──┘  arrows: ← ↑ → ↓</code></pre>
+      <p class="specimen-credit" id="credit-mono"></p>
+    </div>
+    <aside class="callout-info">
+      <p class="callout-title">Fonts depend on the app</p>
+      <p>Only the Obsidian theme includes these fonts. The Ghostty themes set colors only. Ghostty uses the font in your Ghostty config.</p>
+    </aside>
+  </section>
+
+  <section>
+    <h2>Palette</h2>
+    <div id="palettes" class="palettes"></div>
+  </section>
+
+  <section>
+    <h2>Contrast</h2>
+    <p>Each pair must meet its WCAG 2.2 minimum ratio. The build stops when a pair fails. Targets: 7:1 (AAA) for body text, 4.5:1 (AA) for secondary text and code tokens, 3:1 for UI borders.</p>
+    <div id="contrast" class="contrast"></div>
+  </section>
+
+  <script src="brief.js"></script>
+</body>
+</html>

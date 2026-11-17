@@ -1,0 +1,52 @@
+body {
+  --code-border-width: 1px;
+  --code-radius: 4px;
+  --code-block-radius: 10px;
+}
+
+.markdown-rendered pre {
+  border-radius: var(--code-block-radius);
+}
+
+.cm-s-obsidian div.HyperMD-codeblock-begin-bg {
+  border-top-left-radius: var(--code-block-radius);
+  border-top-right-radius: var(--code-block-radius);
+}
+
+.cm-s-obsidian div.HyperMD-codeblock-end-bg {
+  border-bottom-left-radius: var(--code-block-radius);
+  border-bottom-right-radius: var(--code-block-radius);
+}
+
+.token.comment,
+.cm-comment {
+  font-style: italic;
+}
+
+.token.keyword,
+.token.important,
+.cm-keyword {
+  font-weight: 600;
+}
+
+.token.inserted,
+.HyperMD-codeblock .cm-positive {
+  color: var(--code-inserted);
+}
+
+.token.deleted,
+.HyperMD-codeblock .cm-negative {
+  color: var(--code-deleted);
+}
+
+.markdown-rendered :not(pre) > code,
+.cm-s-obsidian span.cm-inline-code {
+  color: var(--inline-code-normal);
+  background-color: var(--inline-code-background);
+  border-color: var(--inline-code-border-color);
+}
+
+.markdown-rendered :not(pre) > code,
+.cm-s-obsidian .cm-inline-code:not(.cm-hmd-indented-code) {
+  padding-block: 0.05em;
+}

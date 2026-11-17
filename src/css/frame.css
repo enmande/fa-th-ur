@@ -1,0 +1,12 @@
+body {
+  --titlebar-border-width: 1px;
+  --titlebar-border-color: var(--background-modifier-border);
+}
+
+.status-bar {
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+body {
+  --workspace-background-translucent: color-mix(in srgb, var(--background-secondary) 90%, transparent);
+}
