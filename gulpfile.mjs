@@ -84,6 +84,9 @@ async function css() {
   await fs.mkdir(p(OBSIDIAN_DIST), { recursive: true });
   await fs.writeFile(p(OBSIDIAN_DIST, 'theme.css'), theme);
   await fs.copyFile(p('manifest.json'), p(OBSIDIAN_DIST, 'manifest.json'));
+  for (const font of [fonts.mono, fonts.body]) {
+    await fs.copyFile(p('src/fonts', font.dir, 'OFL.txt'), p(OBSIDIAN_DIST, `OFL-${font.dir}.txt`));
+  }
 
   const data = previewData(results);
   data.fonts = Object.fromEntries(
