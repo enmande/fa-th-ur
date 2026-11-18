@@ -5,7 +5,7 @@
 //
 // Gruvbox (https://github.com/morhetz/gruvbox) and Gruvbox Material
 // (https://github.com/sainnhe/gruvbox-material) are the inspiration for the
-// soft blacks, the ambers, and the red code keywords.
+// soft blacks and the ambers.
 
 export const AAA = 7;
 export const AA = 4.5;
@@ -17,8 +17,7 @@ const shared = {
   screenLine: '#2a2f28',
   phosphor: '#9cbf6e',
   codeComment: '#958e7f',
-  codeKeyword: '#f07a6f',
-  codeFunction: '#cbd48f',
+  codeKeyword: '#c3e08e',
   codeString: '#8fb38a',
   codeValue: '#e3bf7f',
   codeProperty: '#b8c49a',
@@ -27,7 +26,7 @@ const shared = {
   codeTag: '#d2b86e',
   codeImportant: '#e5a54b',
   codeInserted: '#9ccf8a',
-  codeDeleted: '#e8857a',
+  codeDeleted: '#c98a63',
 };
 
 export const themes = {
@@ -155,7 +154,7 @@ export const themes = {
       '--code-normal': 'phosphor',
       '--code-comment': 'codeComment',
       '--code-keyword': 'codeKeyword',
-      '--code-function': 'codeFunction',
+      '--code-function': 'phosphor',
       '--code-string': 'codeString',
       '--code-value': 'codeValue',
       '--code-property': 'codeProperty',

@@ -78,6 +78,6 @@ The Obsidian theme embeds fonts that use the SIL Open Font License 1.1. See `LIC
 
 ## Credits
 
-- [Gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev and [Gruvbox Material](https://github.com/sainnhe/gruvbox-material) by sainnhe are the inspiration for the soft blacks, the ambers, and the red code keywords.
+- [Gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev and [Gruvbox Material](https://github.com/sainnhe/gruvbox-material) by sainnhe are the inspiration for the soft blacks and the ambers.
 - [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) by The JetBrains Mono Project Authors.
 - [IBM Plex Sans](https://github.com/IBM/plex) by IBM Corp.
