@@ -48,8 +48,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Check version
+      - name: Check version and tag
         id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           version="$(node -p 'require("./manifest.json").version')"
           package="$(node -p 'require("./package.json").version')"
@@ -57,7 +59,15 @@ jobs:
             echo "::error::manifest.json has $version, package.json has $package."
             exit 1
           fi
-          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          tag="v$version"
+          if result="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" 2>&1)"; then
+            echo "::error::tag $tag already exists. Bump the version in a PR first."
+            exit 1
+          elif ! grep -q 'HTTP 404' <<<"$result"; then
+            echo "::error::could not check tag $tag: $result"
+            exit 1
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - run: npm ci --ignore-scripts
 
@@ -92,8 +102,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.build.outputs.tag }}
         run: |
-          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
+          if result="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" 2>&1)"; then
             echo "::error::tag $TAG already exists. Bump the version in a PR first."
+            exit 1
+          elif ! grep -q 'HTTP 404' <<<"$result"; then
+            echo "::error::could not check tag $TAG: $result"
             exit 1
           fi
           gh release create "$TAG" release/*.zip --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
