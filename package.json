@@ -12,7 +12,8 @@
     "fonts:fetch": "node scripts/fetch-fonts.mjs",
     "build": "gulp build",
     "watch": "gulp watch",
-    "contrast": "gulp contrast"
+    "contrast": "gulp contrast",
+    "version:bump": "node scripts/bump-version.mjs"
   },
   "devDependencies": {
     "gulp": "^5.0.1",

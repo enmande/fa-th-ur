@@ -15,7 +15,6 @@ A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` ma
 npm install
 npm run fonts:fetch   # optional: refreshes src/fonts from upstream
 npm run build         # contrast check, font embedding, all app themes in dist/
-npm run watch         # rebuild on change
 ```
 
 The build stops when a color pair fails its contrast minimum.
@@ -39,8 +38,8 @@ The Obsidian theme has no plugins and makes no network requests. The fonts are e
 
 ### Install (manual)
 
-1. Run the steps in [Build](#build). The build writes the theme into `dist/`.
-2. Copy the folder `dist/obsidian/fa-th-ur/` into `<vault>/.obsidian/themes/`.
+1. Download `obsidian_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build): the build writes the theme into `dist/obsidian/`.
+2. Copy the folder `fa-th-ur/` into `<vault>/.obsidian/themes/`.
 3. Select "fa-th-ur" in Settings > Appearance > Themes.
 
 The folder name must be exactly `fa-th-ur`. Obsidian loads a theme only when its folder name matches the `name` in `manifest.json`.
@@ -59,10 +58,11 @@ Open `preview/index.html` in a browser after a build. The page shows the palette
 
 ## Ghostty
 
-The build writes two Ghostty themes: `dist/ghostty/fa-th-ur light` and `dist/ghostty/fa-th-ur dark`.
+There are two Ghostty themes: `fa-th-ur light` and `fa-th-ur dark`.
 
-1. Copy both files into `~/.config/ghostty/themes/`.
-2. Add this line to the Ghostty config:
+1. Download `ghostty_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build): the build writes the themes into `dist/ghostty/`.
+2. Copy both theme files into `~/.config/ghostty/themes/`.
+3. Add this line to the Ghostty config:
 
    ```
    theme = light:fa-th-ur light,dark:fa-th-ur dark
