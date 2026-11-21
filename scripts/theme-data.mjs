@@ -1,4 +1,4 @@
-import { themes, pairs, ghostty, AA } from '../src/palette.mjs';
+import { themes, pairs, ghostty, AA, paperSwatches } from '../src/palette.mjs';
 import { contrast, hexToRgb, hexToHsl, mix } from './color.mjs';
 
 const HEX = /^#[0-9a-f]{3,8}$/i;
@@ -66,5 +66,5 @@ export function ghosttyTheme(mode) {
 }
 
 export function previewData(results) {
-  return { themes, contrast: results };
+  return { themes, paperSwatches, contrast: results };
 }

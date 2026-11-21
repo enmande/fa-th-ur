@@ -9,7 +9,7 @@
 // roles with swatch names.
 // All themes in `vscodeThemes` go into one .vsix.
 
-import { AAA, AA, UI, ghostty, paperCode } from './palette.mjs';
+import { AAA, AA, UI, ghostty, paperCode, paperSwatches } from './palette.mjs';
 
 const ANSI_NAMES = [
   'Black', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White',
@@ -100,8 +100,8 @@ export const chromeColors = {
   'gitDecoration.addedResourceForeground': '--color-green',
   'gitDecoration.modifiedResourceForeground': { dark: '--color-yellow', light: 'amber' },
   'gitDecoration.stageModifiedResourceForeground': { dark: '--color-yellow', light: 'amber' },
-  'gitDecoration.deletedResourceForeground': { dark: 'codeDeletedHi', light: 'orangeHi' },
-  'gitDecoration.stageDeletedResourceForeground': { dark: 'codeDeletedHi', light: 'orangeHi' },
+  'gitDecoration.deletedResourceForeground': 'orangeHi',
+  'gitDecoration.stageDeletedResourceForeground': 'orangeHi',
   'gitDecoration.renamedResourceForeground': '--tag-color',
   'gitDecoration.untrackedResourceForeground': 'sand',
   'gitDecoration.ignoredResourceForeground': '--text-muted',
@@ -469,7 +469,12 @@ export const paperColors = {
 
 export const surfaces = {
   screen: { mode: 'dark', colors: screenColors, tokens: codeTokens },
-  paper: { mode: 'light', colors: paperColors, tokens: codeTokens, roles: paperCode },
+  paper: {
+    mode: 'light',
+    colors: paperColors,
+    tokens: codeTokens,
+    roles: Object.fromEntries(Object.entries(paperCode).map(([role, name]) => [role, paperSwatches[name] ?? name])),
+  },
 };
 
 export const vscodeThemes = [

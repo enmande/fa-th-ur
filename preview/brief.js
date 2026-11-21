@@ -156,14 +156,18 @@
   }
 
   const palettes = document.getElementById('palettes');
-  for (const [mode, theme] of Object.entries(data.themes)) {
+  const groups = [
+    ...Object.entries(data.themes).map(([mode, theme]) => [mode, mode, theme.swatches]),
+    ['light', 'light paper code', data.paperSwatches],
+  ];
+  for (const [mode, title, swatches] of groups) {
     const grid = el('div', { className: 'swatches' });
-    for (const [name, hex] of Object.entries(theme.swatches)) {
+    for (const [name, hex] of Object.entries(swatches)) {
       const chip = el('div', { className: 'chip' });
       chip.style.background = hex;
       grid.append(el('div', { className: 'swatch' }, chip, el('div', { className: 'meta' }, `${name} `, el('code', {}, hex))));
     }
-    palettes.append(el('div', { className: `palette theme-${mode}` }, el('h3', {}, mode), grid));
+    palettes.append(el('div', { className: `palette theme-${mode}` }, el('h3', {}, title), grid));
   }
 
   const contrast = document.getElementById('contrast');

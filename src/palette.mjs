@@ -29,6 +29,10 @@ const shared = {
   codeDeleted: '#c98a63',
 };
 
+// Light colors with two names each. Dark mode gives each name its own color.
+const lightMuted = '#4e4a45'; // light fg3 and sand
+const lightPaperAlt = '#ede3c9'; // light paperAlt and base10
+
 export const themes = {
   dark: {
     swatches: {
@@ -45,7 +49,6 @@ export const themes = {
       borderFocus: '#8a7c6f',
       fg0: '#f9f0da',
       fg1: '#e5dbc5',
-      fg2: '#cec5b0',
       fg3: '#b7af9d',
       fg4: '#a29b8b',
       amber: '#e5a54b',
@@ -54,9 +57,9 @@ export const themes = {
       sand: '#cebfa8',
       markRed: '#f07a6f',
       markRedHi: '#f5928a',
-      codeDeletedHi: '#d9a17d',
       highlight: '#4e3d23',
       orange: '#c98a63',
+      orangeHi: '#d9a17d',
       yellow: '#d2b86e',
       green: '#9cbf6e',
       cyan: '#9bbaa3',
@@ -138,10 +141,10 @@ export const themes = {
       '--h4-color': 'yellow',
       '--h5-color': 'sand',
       '--h6-color': 'sand',
-      '--blockquote-border-color': 'codeDeleted',
-      '--list-marker-color': 'codeDeleted',
-      '--checkbox-color': 'codeDeleted',
-      '--checkbox-color-hover': 'codeDeletedHi',
+      '--blockquote-border-color': 'orange',
+      '--list-marker-color': 'orange',
+      '--checkbox-color': 'orange',
+      '--checkbox-color-hover': 'orangeHi',
       '--checkbox-marker-color': 'paper',
       '--table-header-background': 'fg1',
       '--table-header-background-hover': 'fg1',
@@ -176,9 +179,9 @@ export const themes = {
       ...shared,
       chrome: '#e8dcc0',
       paper: '#f2e9d2',
-      paperAlt: '#ede3c9',
+      paperAlt: lightPaperAlt,
       base05: '#efe5cc',
-      base10: '#ede3c9',
+      base10: lightPaperAlt,
       base25: '#e0d4b6',
       base30: '#d3c6a6',
       base35: '#c8ba98',
@@ -186,17 +189,15 @@ export const themes = {
       borderFocus: '#8c7d66',
       fg0: '#2a2825',
       fg1: '#3c3834',
-      fg2: '#4e4a45',
-      fg3: '#4e4a45',
+      fg3: lightMuted,
       fg4: '#625d57',
       amber: '#7a4504',
       amberHi: '#5f3602',
       amberMax: '#4d2c02',
       umber: '#5e4630',
       umberInk: '#553e2a',
-      sand: '#4e4a45',
-      markRed: '#b53d35',
-      markRedHi: '#9a312b',
+      sand: lightMuted,
+      markRed: '#9a312b',
       highlight: '#ecc679',
       orange: '#8f4a1c',
       orangeHi: '#7a3e16',
@@ -205,22 +206,26 @@ export const themes = {
       cyan: '#356548',
       blue: '#2e5680',
       purple: '#74406f',
-      paperString: '#1e5f50',
-      paperProperty: '#59690f',
-      paperOperator: '#8d5900',
-      paperPunctuation: '#473a35',
-      paperTag: '#676357',
-      paperImportant: '#994407',
-      paperInserted: '#0d4c4b',
-      paperDeleted: '#6e1c05',
     },
     roles: null, // filled below: same role map as dark
   },
 };
 
-// Code colors on a light paper surface, as light swatch names. The VS Code
-// light editor uses them. Obsidian code blocks stay on the screen in both
-// modes, so these do not replace the light --code-* roles.
+// Code colors that only the light paper editor uses.
+export const paperSwatches = {
+  paperString: '#1e5f50',
+  paperProperty: '#59690f',
+  paperOperator: '#8d5900',
+  paperPunctuation: '#473a35',
+  paperTag: '#676357',
+  paperImportant: '#994407',
+  paperInserted: '#0d4c4b',
+  paperDeleted: '#6e1c05',
+};
+
+// Code colors on a light paper surface: light swatch names or paper swatch
+// names. The VS Code light editor uses them. Obsidian code blocks stay on the
+// screen in both modes, so these do not replace the light --code-* roles.
 export const paperCode = {
   '--code-normal': 'fg1',
   '--code-comment': 'fg4',
@@ -240,17 +245,12 @@ export const paperCode = {
 themes.light.roles = {
   ...themes.dark.roles,
   '--heading-glow': 'transparent',
-  '--text-error': 'markRedHi',
-  '--color-red': 'markRedHi',
+  '--color-pink': 'markRed',
   '--h3-color': 'umber',
   '--h4-color': 'umber',
   '--inline-code-normal': 'umberInk',
   '--inline-code-background': 'paperAlt',
   '--inline-code-border-color': 'base35',
-  '--blockquote-border-color': 'orange',
-  '--list-marker-color': 'orange',
-  '--checkbox-color': 'orange',
-  '--checkbox-color-hover': 'orangeHi',
 };
 
 // [foreground role, background role, minimum ratio]
