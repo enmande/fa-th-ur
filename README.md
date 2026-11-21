@@ -6,6 +6,7 @@ A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` ma
 |---|---|
 | Obsidian | `dist/obsidian/fa-th-ur/` |
 | Ghostty | `dist/ghostty/` |
+| VS Code | `dist/vscode/fa-th-ur-<version>.vsix` |
 
 ![The fa-th-ur light and dark palettes](docs/images/palettes.png)
 
@@ -25,6 +26,7 @@ The build stops when a color pair fails its contrast minimum.
 |---|---|
 | Colors and contrast pairs | `src/palette.mjs` |
 | Ghostty color keys | `src/palette.mjs` (`ghostty`) |
+| VS Code themes and color keys | `src/vscode.mjs` |
 | Fonts and font subsets (Obsidian) | `src/fonts.mjs` |
 | Obsidian styles that are not colors | `src/css/*.css` |
 
@@ -69,6 +71,20 @@ There are two Ghostty themes: `fa-th-ur light` and `fa-th-ur dark`.
    ```
 
 Ghostty then follows the light or dark appearance of the system. The terminal text colors map to roles in `src/palette.mjs` that have contrast pairs.
+
+## VS Code
+
+One `.vsix` holds all the VS Code themes in `vscodeThemes` in `src/vscode.mjs`.
+
+| Theme | Workbench and floating widgets | Editor surface |
+|---|---|---|
+| fa-th-ur dark | Dark palette | Code screen (phosphor) |
+
+1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build).
+2. Run `code --install-extension fa-th-ur-<version>.vsix`.
+3. Select the theme in Preferences > Theme > Color Theme.
+
+To add a theme, add an entry to `vscodeThemes`. Each entry names a `chrome` palette mode and an editor `surface` from `surfaces`. The build checks the pairs in `vscodePairs` for each theme.
 
 ## License
 
