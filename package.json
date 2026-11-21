@@ -2,7 +2,7 @@
   "name": "fa-th-ur",
   "version": "0.2.0",
   "private": true,
-  "description": "Warm, minimal, accessible themes. Soft blacks, dim ambers, aged paper, and phosphor.",
+  "description": "Minimal, accessible themes in amber, phosphor, paper, and soft black.",
   "license": "MIT",
   "type": "module",
   "engines": {
