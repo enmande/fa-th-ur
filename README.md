@@ -1,12 +1,6 @@
 # fa-th-ur
 
-A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` makes light and dark themes for each supported app. The build checks a contrast minimum for each listed color pair.
-
-| App | Output |
-|---|---|
-| Obsidian | `dist/obsidian/fa-th-ur/` |
-| Ghostty | `dist/ghostty/` |
-| VS Code | `dist/vscode/fa-th-ur-<version>.vsix` |
+A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` makes light and dark themes for each supported app. 
 
 ![The fa-th-ur light and dark palettes](docs/images/palettes.png)
 
@@ -16,19 +10,14 @@ A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` ma
 npm install
 npm run fonts:fetch   # optional: refreshes src/fonts from upstream
 npm run build         # contrast check, font embedding, all app themes in dist/
+npm run build:<app>   # contrast check and one app
 ```
 
 The build stops when a color pair fails its contrast minimum.
 
-## Where to change things
+## Preview
 
-| Change | File |
-|---|---|
-| Colors and contrast pairs | `src/palette.mjs` |
-| Ghostty color keys | `src/palette.mjs` (`ghostty`) |
-| VS Code themes and color keys | `src/vscode.mjs` |
-| Fonts and font subsets (Obsidian) | `src/fonts.mjs` |
-| Obsidian styles that are not colors | `src/css/*.css` |
+Open `preview/index.html` in a browser after a build. The page shows the palette, the contrast results, and the type specimens.
 
 ## Obsidian
 
@@ -38,7 +27,7 @@ The Obsidian theme has no plugins and makes no network requests. The fonts are e
 
 ![The fa-th-ur dark theme in Obsidian](docs/images/obsidian-dark.png)
 
-### Install (manual)
+### Install
 
 1. Download `obsidian_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build): the build writes the theme into `dist/obsidian/`.
 2. Copy the folder `fa-th-ur/` into `<vault>/.obsidian/themes/`.
@@ -46,9 +35,6 @@ The Obsidian theme has no plugins and makes no network requests. The fonts are e
 
 The folder name must be exactly `fa-th-ur`. Obsidian loads a theme only when its folder name matches the `name` in `manifest.json`.
 
-### Preview
-
-Open `preview/index.html` in a browser after a build. The page shows the palette, the contrast results, and the type specimens. To see the theme in Obsidian, use the trial vault.
 
 ### Trial vault
 
@@ -60,6 +46,8 @@ Open `preview/index.html` in a browser after a build. The page shows the palette
 
 ## Ghostty
 
+### Install
+
 There are two Ghostty themes: `fa-th-ur light` and `fa-th-ur dark`.
 
 1. Download `ghostty_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build): the build writes the themes into `dist/ghostty/`.
@@ -67,29 +55,23 @@ There are two Ghostty themes: `fa-th-ur light` and `fa-th-ur dark`.
 3. Add this line to the Ghostty config:
 
    ```
-   theme = light:fa-th-ur light,dark:fa-th-ur dark
+   theme = "light:fa-th-ur light,dark:fa-th-ur dark"
    ```
 
-Ghostty then follows the light or dark appearance of the system. The terminal text colors map to roles in `src/palette.mjs` that have contrast pairs.
+Ghostty then follows the light or dark appearance of the system.
 
 ## VS Code
 
-One `.vsix` holds all the VS Code themes in `vscodeThemes` in `src/vscode.mjs`.
-
-| Theme | Workbench and floating widgets | Editor surface |
-|---|---|---|
-| fa-th-ur dark | Dark palette | Code screen (phosphor) |
-| fa-th-ur light | Light palette | Paper (`paperCode` in `src/palette.mjs`) |
+One `.vsix` holds both VS Code light and dark themes in `vscodeThemes` in `src/apps/vscode.mjs`.
 
 ![The fa-th-ur light theme in VS Code](docs/images/vscode-light.png)
 
 ![The fa-th-ur dark theme in VS Code](docs/images/vscode-dark.png)
 
-1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build).
-2. Run `code --install-extension fa-th-ur-<version>.vsix`.
-3. Select the theme in Preferences > Theme > Color Theme.
+### Install
 
-To add a theme, add an entry to `vscodeThemes`. Each entry names a `chrome` palette mode and an editor `surface` from `surfaces`. The build checks the pairs in `vscodePairs` for each theme.
+1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Alternatively, [build](#build) from source and install the VISX.
+2. Select the theme in Preferences > Theme > Color Theme.
 
 ## License
 
@@ -99,6 +81,5 @@ The Obsidian theme embeds fonts that use the SIL Open Font License 1.1. See `LIC
 
 ## Credits
 
-- [Gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev and [Gruvbox Material](https://github.com/sainnhe/gruvbox-material) by sainnhe are the inspiration for the soft blacks and the ambers.
 - [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) by The JetBrains Mono Project Authors.
 - [IBM Plex Sans](https://github.com/IBM/plex) by IBM Corp.
