@@ -33,15 +33,21 @@
 
   if (params.get('theme')) form.elements.theme.value = params.get('theme');
 
-  function codeColors() {
-    const { swatches, roles } = data.themes.dark;
-    return Object.fromEntries(CODE_ROLES.map(([role]) => [role, swatches[roles[role]] ?? roles[role]]));
+  const codeColors = () => data.editor[form.elements.theme.value];
+
+  function applyEditor() {
+    const { label, ...colors } = codeColors();
+    const section = document.getElementById('code-screen');
+    for (const [role, hex] of Object.entries(colors)) section.style.setProperty(role, hex);
+    document.getElementById('editor-theme').textContent = label;
+    renderDistance();
   }
 
   function apply() {
     const theme = form.elements.theme.value;
     document.body.className = `theme-${theme}`;
     history.replaceState(null, '', `?theme=${theme}`);
+    applyEditor();
   }
 
   const el = (tag, attrs = {}, ...children) => {
@@ -139,7 +145,6 @@
     samples.append(el('div', { className: 'code-sample' }, el('h3', {}, source.dataset.title), grid));
   }
 
-  renderDistance();
   form.addEventListener('change', apply);
   apply();
 
@@ -151,14 +156,18 @@
   }
 
   const palettes = document.getElementById('palettes');
-  for (const [mode, theme] of Object.entries(data.themes)) {
+  const groups = [
+    ...Object.entries(data.themes).map(([mode, theme]) => [mode, mode, theme.swatches]),
+    ['light', 'light paper code', data.paperSwatches],
+  ];
+  for (const [mode, title, swatches] of groups) {
     const grid = el('div', { className: 'swatches' });
-    for (const [name, hex] of Object.entries(theme.swatches)) {
+    for (const [name, hex] of Object.entries(swatches)) {
       const chip = el('div', { className: 'chip' });
       chip.style.background = hex;
       grid.append(el('div', { className: 'swatch' }, chip, el('div', { className: 'meta' }, `${name} `, el('code', {}, hex))));
     }
-    palettes.append(el('div', { className: `palette theme-${mode}` }, el('h3', {}, mode), grid));
+    palettes.append(el('div', { className: `palette theme-${mode}` }, el('h3', {}, title), grid));
   }
 
   const contrast = document.getElementById('contrast');

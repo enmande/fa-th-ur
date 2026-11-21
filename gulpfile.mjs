@@ -3,8 +3,12 @@ import path from 'node:path';
 import gulp from 'gulp';
 import subsetFont from 'subset-font';
 import * as fonts from './src/fonts.mjs';
+import { themes } from './src/palette.mjs';
 import { checkContrast, variablesCss, previewData, ghosttyTheme } from './scripts/theme-data.mjs';
 import { attribution, cssComment, hashComment } from './scripts/attribution.mjs';
+import { vscodeThemes, vscodeTheme, themeSlug, checkVscodeContrast, editorCodeColors } from './scripts/vscode.mjs';
+import { createVSIX } from '@vscode/vsce';
+import { iconPng, iconSvg } from './scripts/icon.mjs';
 
 const { series, watch: gulpWatch } = gulp;
 const ROOT = path.dirname(new URL(import.meta.url).pathname);
@@ -59,7 +63,7 @@ async function fontFaces(font) {
 }
 
 export async function contrast() {
-  const results = checkContrast();
+  const results = [...checkContrast(), ...checkVscodeContrast()];
   const failures = results.filter((r) => !r.pass);
   for (const r of failures) {
     console.error(`  FAIL [${r.mode}] ${r.fg} ${r.fgHex} on ${r.bg} ${r.bgHex}: ${r.ratio.toFixed(2)} < ${r.min}`);
@@ -89,6 +93,7 @@ async function css() {
   }
 
   const data = previewData(results);
+  data.editor = editorCodeColors();
   data.fonts = Object.fromEntries(
     ['body', 'mono'].map((role) => {
       const { family, copyright, unmodified } = fonts[role];
@@ -109,8 +114,52 @@ export async function ghostty() {
   }
 }
 
+export async function vscode() {
+  const pkg = JSON.parse(await fs.readFile(p('package.json'), 'utf8'));
+  const stage = p('.cache/vscode');
+  await fs.rm(stage, { recursive: true, force: true });
+  await fs.mkdir(path.join(stage, 'themes'), { recursive: true });
+
+  const contributes = [];
+  for (const def of vscodeThemes) {
+    const file = `themes/${themeSlug(def)}.json`;
+    await fs.writeFile(path.join(stage, file), `${JSON.stringify(vscodeTheme(def), null, 2)}\n`);
+    contributes.push({ label: def.label, uiTheme: def.uiTheme, path: `./${file}` });
+  }
+  const manifest = {
+    name: 'fa-th-ur',
+    displayName: 'fa-th-ur',
+    description: 'Warm, minimal, accessible. Soft blacks, dim ambers, aged paper, and phosphor.',
+    version: pkg.version,
+    publisher: 'enmande',
+    license: 'MIT',
+    repository: { type: 'git', url: 'https://github.com/enmande/fa-th-ur' },
+    engines: { vscode: '^1.80.0' },
+    categories: ['Themes'],
+    icon: 'icon.png',
+    galleryBanner: { color: themes.dark.swatches.screen, theme: 'dark' },
+    files: ['themes/**', 'icon.png', 'README.md', 'LICENSE'],
+    contributes: { themes: contributes },
+  };
+  await fs.writeFile(path.join(stage, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  const themeList = vscodeThemes.map((d) => `- ${d.label}`).join('\n');
+  await fs.writeFile(
+    path.join(stage, 'README.md'),
+    `# fa-th-ur\n\n${attribution('themes for VS Code').join('\n\n')}\n\n## Themes\n\n${themeList}\n`,
+  );
+  await fs.copyFile(p('LICENSE'), path.join(stage, 'LICENSE'));
+  await fs.writeFile(path.join(stage, 'icon.png'), iconPng(256));
+
+  await fs.rm(p('dist/vscode'), { recursive: true, force: true });
+  await fs.mkdir(p('dist/vscode'), { recursive: true });
+  const out = `dist/vscode/fa-th-ur-${pkg.version}.vsix`;
+  await createVSIX({ cwd: stage, packagePath: p(out), dependencies: false });
+  console.log(`  ${out}: ${vscodeThemes.length} theme(s)`);
+}
+
 async function prepare() {
   await fs.mkdir(p('preview/build'), { recursive: true });
+  await fs.writeFile(p('preview/build/icon.svg'), iconSvg());
 }
 
 async function vault() {
@@ -128,10 +177,10 @@ async function vault() {
   console.log('  installed theme in preview/vault');
 }
 
-export const build = series(prepare, contrast, css, ghostty, vault);
+export const build = series(prepare, contrast, css, ghostty, vscode, vault);
 
 export function watch() {
-  gulpWatch(['src/**/*', 'manifest.json'], { ignoreInitial: false }, series(prepare, contrast, css, ghostty, vault));
+  gulpWatch(['src/**/*', 'manifest.json'], { ignoreInitial: false }, series(prepare, contrast, css, ghostty, vscode, vault));
 }
 
 export default build;
