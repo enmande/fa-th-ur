@@ -6,7 +6,7 @@ import * as fonts from './src/fonts.mjs';
 import { themes } from './src/palette.mjs';
 import { checkContrast, variablesCss, previewData, ghosttyTheme } from './scripts/theme-data.mjs';
 import { attribution, cssComment, hashComment } from './scripts/attribution.mjs';
-import { vscodeThemes, vscodeTheme, themeSlug, checkVscodeContrast } from './scripts/vscode.mjs';
+import { vscodeThemes, vscodeTheme, themeSlug, checkVscodeContrast, editorCodeColors } from './scripts/vscode.mjs';
 import { createVSIX } from '@vscode/vsce';
 import { iconPng, iconSvg } from './scripts/icon.mjs';
 
@@ -93,6 +93,7 @@ async function css() {
   }
 
   const data = previewData(results);
+  data.editor = editorCodeColors();
   data.fonts = Object.fromEntries(
     ['body', 'mono'].map((role) => {
       const { family, copyright, unmodified } = fonts[role];

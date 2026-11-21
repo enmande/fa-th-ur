@@ -69,4 +69,24 @@ export function checkVscodeContrast() {
   return results;
 }
 
+
+// The editor colors of each VS Code theme, by its chrome mode, for the brief:
+// each --code-* role, plus the editor background and border.
+export function editorCodeColors() {
+  return Object.fromEntries(
+    vscodeThemes.map((def) => {
+      const surface = surfaces[def.surface];
+      const resolve = resolver(surface.mode, surface.roles);
+      const { colors } = vscodeTheme(def);
+      const roles = Object.fromEntries(surface.tokens.map(({ role }) => [role, resolve(role)]).filter(([role]) => role.startsWith('--code-')));
+      return [def.chrome, {
+        label: def.label,
+        ...roles,
+        '--code-background': colors['editor.background'],
+        '--code-border-color': colors['editorRuler.foreground'],
+      }];
+    }),
+  );
+}
+
 export { vscodeThemes };
