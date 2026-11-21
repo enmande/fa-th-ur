@@ -4,10 +4,12 @@
 //   - `surface`: the editor and other places that show code.
 //     Values resolve against `themes[surface.mode]`.
 // A value is a role (`--text-normal`), a swatch name (`phosphor`), a literal
-// hex color, or `[value, alpha]` with a two-digit hex alpha.
+// hex color, `[value, alpha]` with a two-digit hex alpha, or `{ dark, light }`
+// with one value for each palette mode. Either form can hold the other. A surface can set `roles` to replace
+// roles with swatch names.
 // All themes in `vscodeThemes` go into one .vsix.
 
-import { AAA, AA, UI, ghostty } from './palette.mjs';
+import { AAA, AA, UI, ghostty, paperCode } from './palette.mjs';
 
 const ANSI_NAMES = [
   'Black', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White',
@@ -80,12 +82,12 @@ export const chromeColors = {
   'sideBarSectionHeader.foreground': '--text-muted',
   'sideBarSectionHeader.border': '--background-modifier-border',
 
-  'list.activeSelectionBackground': '--text-highlight-bg',
+  'list.activeSelectionBackground': { dark: '--text-highlight-bg', light: ['highlight', '80'] },
   'list.activeSelectionForeground': '--text-normal',
   'list.activeSelectionIconForeground': '--text-normal',
-  'list.inactiveSelectionBackground': '--interactive-normal',
+  'list.inactiveSelectionBackground': { dark: '--interactive-normal', light: '--background-modifier-form-field' },
   'list.inactiveSelectionForeground': '--text-normal',
-  'list.hoverBackground': '--background-modifier-form-field',
+  'list.hoverBackground': { dark: '--background-modifier-form-field', light: '--background-primary-alt' },
   'list.hoverForeground': '--text-normal',
   'list.focusOutline': '--interactive-accent',
   'list.focusAndSelectionOutline': '--interactive-accent',
@@ -96,10 +98,10 @@ export const chromeColors = {
   'list.warningForeground': '--text-warning',
   'tree.indentGuidesStroke': '--background-modifier-border-hover',
   'gitDecoration.addedResourceForeground': '--color-green',
-  'gitDecoration.modifiedResourceForeground': '--color-yellow',
-  'gitDecoration.stageModifiedResourceForeground': '--color-yellow',
-  'gitDecoration.deletedResourceForeground': 'codeDeletedHi',
-  'gitDecoration.stageDeletedResourceForeground': 'codeDeletedHi',
+  'gitDecoration.modifiedResourceForeground': { dark: '--color-yellow', light: 'amber' },
+  'gitDecoration.stageModifiedResourceForeground': { dark: '--color-yellow', light: 'amber' },
+  'gitDecoration.deletedResourceForeground': { dark: 'codeDeletedHi', light: 'orangeHi' },
+  'gitDecoration.stageDeletedResourceForeground': { dark: 'codeDeletedHi', light: 'orangeHi' },
   'gitDecoration.renamedResourceForeground': '--tag-color',
   'gitDecoration.untrackedResourceForeground': 'sand',
   'gitDecoration.ignoredResourceForeground': '--text-muted',
@@ -337,7 +339,7 @@ export const screenColors = {
 };
 
 // TextMate scopes. A longer scope match wins over a shorter one.
-export const screenTokens = [
+export const codeTokens = [
   { role: '--code-normal', scope: ['source', 'text'] },
   { role: '--code-comment', fontStyle: 'italic', scope: ['comment', 'punctuation.definition.comment'] },
   { role: '--code-keyword', fontStyle: 'bold', scope: ['keyword', 'storage', 'markup.heading', 'entity.name.section'] },
@@ -385,12 +387,99 @@ export const screenTokens = [
   { role: '--code-normal', fontStyle: 'italic', scope: ['markup.italic'] },
 ];
 
+// The light paper editor. It resolves against the light palette. Its code
+// colors come from `paperCode` in src/palette.mjs.
+export const paperColors = {
+  'editor.background': '--background-primary',
+  'editor.foreground': '--text-normal',
+  'editorPane.background': '--background-primary',
+  'editorCursor.foreground': '--caret-color',
+  'editorCursor.background': '--background-primary',
+  'editorLineNumber.foreground': '--text-faint',
+  'editorLineNumber.activeForeground': '--text-normal',
+  'editor.lineHighlightBackground': '--background-primary-alt',
+  'editor.lineHighlightBorder': '--background-primary-alt',
+  'editor.selectionBackground': ['base40', '66'],
+  'editor.inactiveSelectionBackground': ['base40', '33'],
+  'editor.selectionHighlightBackground': ['base40', '33'],
+  'editor.wordHighlightBackground': ['base40', '33'],
+  'editor.wordHighlightStrongBackground': ['highlight', '66'],
+  'editor.findMatchBackground': '--text-highlight-bg',
+  'editor.findMatchBorder': '--interactive-accent',
+  'editor.findMatchHighlightBackground': ['highlight', '80'],
+  'editor.findRangeHighlightBackground': '--background-primary-alt',
+  'editor.hoverHighlightBackground': ['base40', '33'],
+  'editor.rangeHighlightBackground': ['base40', '26'],
+  'editor.stackFrameHighlightBackground': ['highlight', '66'],
+  'editor.focusedStackFrameHighlightBackground': ['base40', '4d'],
+  'editorWhitespace.foreground': ['base40', 'b3'],
+  'editorIndentGuide.background1': '--background-modifier-border',
+  'editorIndentGuide.activeBackground1': 'base40',
+  'editorRuler.foreground': '--background-modifier-border',
+  'editorBracketMatch.background': ['highlight', '80'],
+  'editorBracketMatch.border': '--background-modifier-border-focus',
+  'editorBracketHighlight.foreground1': '--code-punctuation',
+  'editorBracketHighlight.foreground2': '--code-operator',
+  'editorBracketHighlight.foreground3': '--code-property',
+  'editorBracketHighlight.unexpectedBracket.foreground': '--text-error',
+  'editorError.foreground': '--text-error',
+  'editorWarning.foreground': '--text-warning',
+  'editorInfo.foreground': '--color-blue',
+  'editorHint.foreground': '--text-faint',
+  'editorUnicodeHighlight.border': '--text-warning',
+  'editorLink.activeForeground': '--text-accent',
+  'editorCodeLens.foreground': '--text-faint',
+  'editorGhostText.foreground': '--text-faint',
+  'editorLightBulb.foreground': '--interactive-accent',
+  'editorLightBulbAutoFix.foreground': '--color-green',
+  'editorGutter.background': '--background-primary',
+  'editorGutter.addedBackground': '--color-green',
+  'editorGutter.modifiedBackground': '--color-blue',
+  'editorGutter.deletedBackground': '--color-orange',
+  'editorGutter.foldingControlForeground': '--text-faint',
+  'editorOverviewRuler.border': '--background-modifier-border',
+  'editorOverviewRuler.background': '--background-primary',
+  'editorOverviewRuler.errorForeground': '--text-error',
+  'editorOverviewRuler.warningForeground': '--text-warning',
+  'editorOverviewRuler.infoForeground': '--color-blue',
+  'editorOverviewRuler.findMatchForeground': '--interactive-accent',
+  'editorOverviewRuler.addedForeground': '--color-green',
+  'editorOverviewRuler.modifiedForeground': '--color-blue',
+  'editorOverviewRuler.deletedForeground': '--color-orange',
+  'editorStickyScroll.background': '--background-primary',
+  'editorStickyScrollHover.background': '--background-primary-alt',
+  'minimap.background': '--background-primary',
+  'minimap.findMatchHighlight': '--interactive-accent',
+  'minimap.selectionHighlight': ['base40', '99'],
+  'minimapSlider.background': ['base40', '33'],
+  'minimapSlider.hoverBackground': ['base40', '4d'],
+  'minimapSlider.activeBackground': ['base40', '66'],
+  'peekViewEditor.background': '--background-primary-alt',
+  'peekViewEditorGutter.background': '--background-primary-alt',
+  'peekViewEditor.matchHighlightBackground': ['highlight', '99'],
+  'textCodeBlock.background': '--background-primary-alt',
+  'walkThrough.embeddedEditorBackground': '--background-primary-alt',
+  'diffEditor.insertedTextBackground': ['green', '26'],
+  'diffEditor.removedTextBackground': ['orange', '26'],
+  'diffEditor.insertedLineBackground': ['green', '14'],
+  'diffEditor.removedLineBackground': ['orange', '14'],
+  'diffEditor.border': '--background-modifier-border',
+  'diffEditor.diagonalFill': '--background-modifier-border',
+};
+
 export const surfaces = {
-  screen: { mode: 'dark', colors: screenColors, tokens: screenTokens },
+  screen: { mode: 'dark', colors: screenColors, tokens: codeTokens },
+  paper: { mode: 'light', colors: paperColors, tokens: codeTokens, roles: paperCode },
 };
 
 export const vscodeThemes = [
   { label: 'fa-th-ur dark', uiTheme: 'vs-dark', chrome: 'dark', surface: 'screen' },
+  { label: 'fa-th-ur light', uiTheme: 'vs', chrome: 'light', surface: 'paper' },
+];
+
+const CODE_ROLES = [
+  '--code-normal', '--code-comment', '--code-keyword', '--code-function', '--code-string', '--code-value', '--code-property',
+  '--code-operator', '--code-punctuation', '--code-tag', '--code-important', '--code-inserted', '--code-deleted',
 ];
 
 // [foreground key, background key, minimum ratio, optional base key under a
@@ -398,7 +487,7 @@ export const vscodeThemes = [
 // `token:<role>` is the color of the token rules for that role.
 export const vscodePairs = [
   ['tab.activeForeground', 'tab.activeBackground', AAA],
-  ['list.highlightForeground', 'list.activeSelectionBackground', AA],
+  ['list.highlightForeground', 'list.activeSelectionBackground', AA, 'sideBar.background'],
   ['list.inactiveSelectionForeground', 'list.inactiveSelectionBackground', AA],
   ['list.hoverForeground', 'list.hoverBackground', AA],
   ['editorSuggestWidget.highlightForeground', 'editorSuggestWidget.selectedBackground', AA],
@@ -409,7 +498,7 @@ export const vscodePairs = [
   ['editorInlayHint.foreground', 'editorInlayHint.background', AA],
   ...Object.keys(chromeColors)
     .filter((key) => key.startsWith('gitDecoration.'))
-    .flatMap((key) => ['sideBar.background', 'list.activeSelectionBackground', 'list.inactiveSelectionBackground'].map((bg) => [key, bg, AA])),
+    .flatMap((key) => ['sideBar.background', 'list.activeSelectionBackground', 'list.inactiveSelectionBackground'].map((bg) => [key, bg, AA, 'sideBar.background'])),
   ['textPreformat.foreground', 'textPreformat.background', AA],
   ['breadcrumb.foreground', 'breadcrumb.background', AA],
   ['editor.foreground', 'editor.background', AAA],
@@ -427,4 +516,6 @@ export const vscodePairs = [
   ...['--h1-color', '--h2-color', '--h3-color', '--h4-color', '--h5-color', '--h6-color', '--text-accent', '--list-marker-color']
     .map((role) => [`token:${role}`, 'editor.background', AA]),
   ['token:--blockquote-border-color', 'editor.background', UI],
+  ...CODE_ROLES.map((role) => [`token:${role}`, 'editor.background', AA]),
+  ...CODE_ROLES.map((role) => [`token:${role}`, 'textCodeBlock.background', AA]),
 ];

@@ -205,9 +205,36 @@ export const themes = {
       cyan: '#356548',
       blue: '#2e5680',
       purple: '#74406f',
+      paperString: '#1e5f50',
+      paperProperty: '#59690f',
+      paperOperator: '#8d5900',
+      paperPunctuation: '#473a35',
+      paperTag: '#676357',
+      paperImportant: '#994407',
+      paperInserted: '#0d4c4b',
+      paperDeleted: '#6e1c05',
     },
     roles: null, // filled below: same role map as dark
   },
+};
+
+// Code colors on a light paper surface, as light swatch names. The VS Code
+// light editor uses them. Obsidian code blocks stay on the screen in both
+// modes, so these do not replace the light --code-* roles.
+export const paperCode = {
+  '--code-normal': 'fg1',
+  '--code-comment': 'fg4',
+  '--code-keyword': 'umber',
+  '--code-function': 'fg1',
+  '--code-string': 'paperString',
+  '--code-value': 'sand',
+  '--code-property': 'paperProperty',
+  '--code-operator': 'paperOperator',
+  '--code-punctuation': 'paperPunctuation',
+  '--code-tag': 'paperTag',
+  '--code-important': 'paperImportant',
+  '--code-inserted': 'paperInserted',
+  '--code-deleted': 'paperDeleted',
 };
 
 themes.light.roles = {

@@ -79,6 +79,7 @@ One `.vsix` holds all the VS Code themes in `vscodeThemes` in `src/vscode.mjs`.
 | Theme | Workbench and floating widgets | Editor surface |
 |---|---|---|
 | fa-th-ur dark | Dark palette | Code screen (phosphor) |
+| fa-th-ur light | Light palette | Paper (`paperCode` in `src/palette.mjs`) |
 
 1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build).
 2. Run `code --install-extension fa-th-ur-<version>.vsix`.
