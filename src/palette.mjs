@@ -1,11 +1,7 @@
 // Single source of truth for theme colors.
-// `swatches` are named colors. `roles` map Obsidian CSS variables to a swatch
+// `swatches` are named colors. `roles` map CSS variables to a swatch
 // name or to a literal CSS value. `pairs` list the foreground/background roles
 // that the build checks against a minimum WCAG 2.2 contrast ratio.
-//
-// Gruvbox (https://github.com/morhetz/gruvbox) and Gruvbox Material
-// (https://github.com/sainnhe/gruvbox-material) are the inspiration for the
-// soft blacks and the ambers.
 
 export const AAA = 7;
 export const AA = 4.5;
@@ -313,15 +309,6 @@ export const pairs = [
   ['--inline-code-normal', '--inline-code-background', AAA],
 ];
 
-// Ghostty theme keys mapped to the roles above. Palette entries 0-15 are the
-// ANSI colors; entries 9-14 repeat 1-6.
-const ansi = ['--color-red', '--color-green', '--color-yellow', '--color-blue', '--color-purple', '--color-cyan'];
-export const ghostty = {
-  background: '--background-primary',
-  foreground: '--text-normal',
-  'cursor-color': '--caret-color',
-  'cursor-text': '--text-on-accent',
-  'selection-background': '--text-highlight-bg',
-  'selection-foreground': '--text-normal',
-  palette: ['--background-secondary', ...ansi, '--text-muted', '--text-faint', ...ansi, '--bold-color'],
-};
+// The 16 ANSI terminal colors, as roles. Entries 9-14 repeat 1-6.
+const hues = ['--color-red', '--color-green', '--color-yellow', '--color-blue', '--color-purple', '--color-cyan'];
+export const ansi = ['--background-secondary', ...hues, '--text-muted', '--text-faint', ...hues, '--bold-color'];

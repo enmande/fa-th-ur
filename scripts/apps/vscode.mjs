@@ -1,7 +1,15 @@
-import { themes } from '../src/palette.mjs';
-import { chromeColors, surfaces, vscodeThemes, vscodePairs } from '../src/vscode.mjs';
-import { resolveRoles } from './theme-data.mjs';
-import { contrast, mix } from './color.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createVSIX } from '@vscode/vsce';
+import { themes } from '../../src/palette.mjs';
+import { chromeColors, surfaces, vscodeThemes, vscodePairs } from '../../src/apps/vscode.mjs';
+import { resolveRoles } from '../lib/roles.mjs';
+import { contrast as ratio, mix } from '../lib/color.mjs';
+import { attribution } from '../lib/attribution.mjs';
+import { iconPng } from '../lib/icon.mjs';
+import { p } from '../lib/paths.mjs';
+
+export const name = 'vscode';
 
 const HEX = /^#[0-9a-f]{6}$/i;
 const HEX_ALPHA = /^#[0-9a-f]{8}$/i;
@@ -28,9 +36,9 @@ function resolveMap(map, mode, overrides) {
   return Object.fromEntries(Object.entries(map).map(([key, value]) => [key, resolve(value)]));
 }
 
-export const themeSlug = (def) => def.label.replace(/\s+/g, '-');
+const themeSlug = (def) => def.label.replace(/\s+/g, '-');
 
-export function vscodeTheme(def) {
+function vscodeTheme(def) {
   const surface = surfaces[def.surface];
   if (!surface) throw new Error(`${def.label}: unknown surface "${def.surface}"`);
   const resolve = resolver(surface.mode, surface.roles);
@@ -52,7 +60,7 @@ function opaque(color, base) {
   return mix(color.slice(0, 7), base, parseInt(color.slice(7), 16) / 255);
 }
 
-export function checkVscodeContrast() {
+export function contrast() {
   const results = [];
   for (const def of vscodeThemes) {
     const theme = vscodeTheme(def);
@@ -62,13 +70,12 @@ export function checkVscodeContrast() {
     const colors = { ...theme.colors, ...tokens };
     for (const [fg, bg, min, base] of vscodePairs) {
       const bgHex = opaque(colors[bg], colors[base]);
-      const ratio = contrast(opaque(colors[fg]), bgHex);
-      results.push({ mode: def.label, fg, bg, fgHex: colors[fg], bgHex, min, ratio, pass: ratio >= min });
+      const r = ratio(opaque(colors[fg]), bgHex);
+      results.push({ mode: def.label, fg, bg, fgHex: colors[fg], bgHex, min, ratio: r, pass: r >= min });
     }
   }
   return results;
 }
-
 
 // The editor colors of each VS Code theme, by its chrome mode, for the brief:
 // each --code-* role, plus the editor background and border.
@@ -89,4 +96,45 @@ export function editorCodeColors() {
   );
 }
 
-export { vscodeThemes };
+export async function build() {
+  const pkg = JSON.parse(await fs.readFile(p('package.json'), 'utf8'));
+  const stage = p('.cache/vscode');
+  await fs.rm(stage, { recursive: true, force: true });
+  await fs.mkdir(path.join(stage, 'themes'), { recursive: true });
+
+  const contributes = [];
+  for (const def of vscodeThemes) {
+    const file = `themes/${themeSlug(def)}.json`;
+    await fs.writeFile(path.join(stage, file), `${JSON.stringify(vscodeTheme(def), null, 2)}\n`);
+    contributes.push({ label: def.label, uiTheme: def.uiTheme, path: `./${file}` });
+  }
+  const manifest = {
+    name: 'fa-th-ur',
+    displayName: 'fa-th-ur',
+    description: 'Warm, minimal, accessible. Soft blacks, dim ambers, aged paper, and phosphor.',
+    version: pkg.version,
+    publisher: 'enmande',
+    license: 'MIT',
+    repository: { type: 'git', url: 'https://github.com/enmande/fa-th-ur' },
+    engines: { vscode: '^1.80.0' },
+    categories: ['Themes'],
+    icon: 'icon.png',
+    galleryBanner: { color: themes.dark.swatches.screen, theme: 'dark' },
+    files: ['themes/**', 'icon.png', 'README.md', 'LICENSE'],
+    contributes: { themes: contributes },
+  };
+  await fs.writeFile(path.join(stage, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+  const themeList = vscodeThemes.map((d) => `- ${d.label}`).join('\n');
+  await fs.writeFile(
+    path.join(stage, 'README.md'),
+    `# fa-th-ur\n\n${attribution('themes for VS Code').join('\n\n')}\n\n## Themes\n\n${themeList}\n`,
+  );
+  await fs.copyFile(p('LICENSE'), path.join(stage, 'LICENSE'));
+  await fs.writeFile(path.join(stage, 'icon.png'), iconPng(256));
+
+  await fs.rm(p('dist/vscode'), { recursive: true, force: true });
+  await fs.mkdir(p('dist/vscode'), { recursive: true });
+  const out = `dist/vscode/fa-th-ur-${pkg.version}.vsix`;
+  await createVSIX({ cwd: stage, packagePath: p(out), dependencies: false });
+  console.log(`  ${out}: ${vscodeThemes.length} theme(s)`);
+}

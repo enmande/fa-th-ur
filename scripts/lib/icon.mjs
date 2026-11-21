@@ -1,5 +1,5 @@
 import { Resvg } from '@resvg/resvg-js';
-import { themes } from '../src/palette.mjs';
+import { themes } from '../../src/palette.mjs';
 import { mix } from './color.mjs';
 
 // Sunset stripes on the code screen. The bars get shorter and thinner toward
