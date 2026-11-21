@@ -9,13 +9,13 @@
 // roles with swatch names.
 // All themes in `vscodeThemes` go into one .vsix.
 
-import { AAA, AA, UI, ghostty, paperCode, paperSwatches } from './palette.mjs';
+import { AAA, AA, UI, ansi, paperCode, paperSwatches } from '../palette.mjs';
 
 const ANSI_NAMES = [
   'Black', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White',
   'BrightBlack', 'BrightRed', 'BrightGreen', 'BrightYellow', 'BrightBlue', 'BrightMagenta', 'BrightCyan', 'BrightWhite',
 ];
-const terminalAnsi = Object.fromEntries(ghostty.palette.map((role, i) => [`terminal.ansi${ANSI_NAMES[i]}`, role]));
+const terminalAnsi = Object.fromEntries(ansi.map((role, i) => [`terminal.ansi${ANSI_NAMES[i]}`, role]));
 
 export const chromeColors = {
   foreground: '--text-normal',
