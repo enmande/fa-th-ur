@@ -111,7 +111,7 @@ export async function build() {
   const manifest = {
     name: 'fa-th-ur',
     displayName: 'fa-th-ur',
-    description: 'Warm, minimal, accessible. Soft blacks, dim ambers, aged paper, and phosphor.',
+    description: pkg.description,
     version: pkg.version,
     publisher: 'enmande',
     license: 'MIT',
