@@ -81,6 +81,10 @@ One `.vsix` holds all the VS Code themes in `vscodeThemes` in `src/vscode.mjs`.
 | fa-th-ur dark | Dark palette | Code screen (phosphor) |
 | fa-th-ur light | Light palette | Paper (`paperCode` in `src/palette.mjs`) |
 
+![The fa-th-ur light theme in VS Code](docs/images/vscode-light.png)
+
+![The fa-th-ur dark theme in VS Code](docs/images/vscode-dark.png)
+
 1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Or run the steps in [Build](#build).
 2. Run `code --install-extension fa-th-ur-<version>.vsix`.
 3. Select the theme in Preferences > Theme > Color Theme.
