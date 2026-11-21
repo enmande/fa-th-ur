@@ -10,6 +10,10 @@ name: Release
 #   - Commits merged after the bump are in the release.
 #   - A bump that is not released is skipped. The next release uses the newest bump.
 #   - Do not use "Draft a new release" on the Releases page. It makes a tag with no build and no zips.
+#   - The tag is the bare version (0.2.0), the same as "version" in manifest.json.
+#     Obsidian installs a theme from the release whose tag matches that version.
+#   - The release attaches manifest.json and theme.css as separate files, as the
+#     Obsidian community theme directory requires, next to one zip for each app.
 #   - Actions are pinned to commit SHAs. The comment after each SHA names its release.
 
 on:
@@ -59,7 +63,7 @@ jobs:
             echo "::error::manifest.json has $version, package.json has $package."
             exit 1
           fi
-          tag="v$version"
+          tag="$version"
           if result="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" 2>&1)"; then
             echo "::error::tag $tag already exists. Bump the version in a PR first."
             exit 1
@@ -75,14 +79,16 @@ jobs:
         run: npm run build
 
       - name: Package
-        run: scripts/package.sh "$TAG" release
+        run: |
+          scripts/package.sh "v$TAG" release
+          cp dist/obsidian/fa-th-ur/manifest.json dist/obsidian/fa-th-ur/theme.css release/
         env:
           TAG: ${{ steps.version.outputs.tag }}
 
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: release-zips
-          path: release/*.zip
+          name: release-assets
+          path: release/*
           if-no-files-found: error
           retention-days: 1
 
@@ -94,7 +100,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: release-zips
+          name: release-assets
           path: release
 
       - name: Tag and release
@@ -109,5 +115,5 @@ jobs:
             echo "::error::could not check tag $TAG: $result"
             exit 1
           fi
-          gh release create "$TAG" release/*.zip --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
-            --generate-notes --title "fa-th-ur $TAG"
+          gh release create "$TAG" release/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --generate-notes --title "fa-th-ur v$TAG"
