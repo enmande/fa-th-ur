@@ -23,6 +23,8 @@ Open `preview/index.html` in a browser after a build. The page shows the palette
 
 The Obsidian theme has no plugins and makes no network requests. The fonts are embedded in `theme.css`.
 
+`manifest.json` stays at the repository root because the Obsidian community theme directory reads it there.
+
 ![The fa-th-ur light theme in Obsidian](docs/images/obsidian-light.png)
 
 ![The fa-th-ur dark theme in Obsidian](docs/images/obsidian-dark.png)
