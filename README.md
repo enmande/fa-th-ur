@@ -70,8 +70,9 @@ One `.vsix` holds both VS Code light and dark themes in `vscodeThemes` in `src/a
 
 ### Install
 
-1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Alternatively, [build](#build) from source and install the VISX.
-2. Select the theme in Preferences > Theme > Color Theme.
+1. Download `vscode_fa-th-ur_v<version>.zip` from [Releases](https://github.com/enmande/fa-th-ur/releases) and unzip it. Alternatively, [build](#build) from source: the build writes the VSIX into `dist/vscode/`.
+2. Run `code --install-extension fa-th-ur-<version>.vsix`.
+3. Select the theme in Preferences > Theme > Color Theme.
 
 ## License
 
