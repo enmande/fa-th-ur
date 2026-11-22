@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
-    "@vscode/vsce": "^3.9.2",
+    "@vscode/vsce": "^4.1.1",
     "gulp": "^5.0.1",
     "subset-font": "^2.9.0"
   }
