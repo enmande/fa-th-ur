@@ -1,6 +1,6 @@
 # fa-th-ur
 
-A warm, minimal, accessible theme framework. One palette in `src/palette.mjs` makes light and dark themes for each supported app. 
+Minimal, accessible themes in amber, phosphor, paper, and soft black. One palette in `src/palette.mjs` makes light and dark themes for each supported app.
 
 ![The fa-th-ur light and dark palettes](docs/images/palettes.png)
 
